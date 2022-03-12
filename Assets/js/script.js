@@ -6,25 +6,26 @@ var uppercase = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M'
 var numbers = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9'];
 var special = ['@', '%', '+', '/', "'", '!', '#', '$', '^', '?', ':', ',', ')', '(', '}', '{', ']', '[', '~', '-', '_', '.'];
 
-// added function to ask user which options 
+// added function to ask user which options
 function questionPrompts(){
   var isValid = false;
   do {
     var passwordLength = prompt("How many characters would you like your password to be? Your password must be between 8-128 characters long.");
-    var askNumbers = confirm("A good password needs some numbers. Want to add some?");
-    var askLowerCase = confirm("How about some lowercase letters?");
-    var askUpperCase = confirm("What about some uppercase letters?");
-    var askSpecial = confirm("You have a good password, but great one has special characters. Want to add that too?");
+    var numbersChoice = confirm("A good password needs some numbers. Want to add some?");
+    var lowercaseChoice = confirm("How about some lowercase letters?");
+    var uppercaseChoice = confirm("What about some uppercase letters?");
+    var specialChoice = confirm("You have a good password, but great one has special characters. Want to add that too?");
     var responses = {
       length: passwordLength,
-      askNumbers: askNumbers,
-      askLowerCase: askLowerCase,
-      askUpperCase: askUpperCase,
-      askSpecial: askSpecial
+      numbersChoice: numbersChoice,
+      lowercaseChoice: lowercaseChoice,
+      uppercaseChoice: uppercaseChoice,
+      specialChoice: specialChoice
     }
+// added conditional statements to make sure their choices met the bare minimum  
     if((passwordLength < 8)||(passwordLength > 128))
     alert("Choose number between 8 and 128");
-    else if((!askNumbers)&&(!askLowerCase)&&(!askUpperCase)&&(!askSpecial))
+    else if((!numbersChoice)&&(!lowercaseChoice)&&(!uppercaseChoice)&&(!specialChoice))
     alert("Must choose at least one type.");
     else
     isValid = true;
@@ -33,12 +34,36 @@ function questionPrompts(){
   return responses;
 };
 
+// function then joins responses and creates password
 function generatePassword() {
-  var password = "";
-  var passwordChar = "";
+  var passwordChoices = questionPrompts();
+  var possibleCombo = [];
+  var finalPassword = "";
 
+  if (passwordChoices.numbersChoice) {
+    for (var i of numbers)
+      possibleCombo.push(i);
+  }
+  if (passwordChoices.lowercaseChoice) {
+    for (var i of lowercase)
+      possibleCombo.push(i);
+  }
+  if (passwordChoices.uppercaseChoice) {
+    for (var i of uppercase)
+      possibleCombo.push(i);
+  }
+  if (passwordChoices.specialChoice) {
+    for (var i of special)
+      possibleCombo.push(i);
+  }
 
+  console.log(possibleCombo);
 
+  for (var i = 0; i < passwordChoices.length; i++) {
+    finalPassword += possibleCombo[Math.floor(Math.random() * possibleCombo.length)];
+  }
+
+  console.log(finalPassword)
   // 1. Prompt the user for the password criteria
   //    a. Password length 8 < 128
   //    b. Lowercase, Uppercase, Numbers, Special
@@ -46,7 +71,7 @@ function generatePassword() {
   // 3. Generate password based on criteria
   // 4. Display password to the page.
 
-  return password;
+  return finalPassword;
 };
 // Write password to the #password input
 function writePassword() {
