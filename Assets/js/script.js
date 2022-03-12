@@ -6,53 +6,37 @@ var uppercase = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M'
 var numbers = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9'];
 var special = ['@', '%', '+', '/', "'", '!', '#', '$', '^', '?', ':', ',', ')', '(', '}', '{', ']', '[', '~', '-', '_', '.'];
 
+// added function to ask user which options 
+function questionPrompts(){
+  var isValid = false;
+  do {
+    var passwordLength = prompt("How many characters would you like your password to be? Your password must be between 8-128 characters long.");
+    var askNumbers = confirm("A good password needs some numbers. Want to add some?");
+    var askLowerCase = confirm("How about some lowercase letters?");
+    var askUpperCase = confirm("What about some uppercase letters?");
+    var askSpecial = confirm("You have a good password, but great one has special characters. Want to add that too?");
+    var responses = {
+      length: passwordLength,
+      askNumbers: askNumbers,
+      askLowerCase: askLowerCase,
+      askUpperCase: askUpperCase,
+      askSpecial: askSpecial
+    }
+    if((passwordLength < 8)||(passwordLength > 128))
+    alert("Choose number between 8 and 128");
+    else if((!askNumbers)&&(!askLowerCase)&&(!askUpperCase)&&(!askSpecial))
+    alert("Must choose at least one type.");
+    else
+    isValid = true;
+
+  } while(!isValid);
+  return responses;
+};
+
 function generatePassword() {
   var password = "";
   var passwordChar = "";
-// prompts user to select password length
-  var passwordLength = prompt("How many characters would you like your password to be? Your password must be between 8-128 characters long.");
-  passwordLength = parseInt(passwordLength);
 
-  if (passwordLength < 8) {
-    alert("Password must have more than 7 characters!");
-    return "";
-  }
-
-  if (passwordLength > 128) {
-    alert("Password must have no more than 128 characters!");
-    return "";
-  }
-
-  // creates yes/no prompt choice for lowercase characters 
-  var lowercaseChoice = confirm("Would you like some lowercase characters?");
-
-  if (lowercaseChoice) {
-    passwordChar += lowercase;
-  }
-
-  // creates yes/no prompt choice for uppercase characters
-  var uppercaseChoice = confirm("Want uppercase characters?");
-
-  if (uppercaseChoice) {
-    passwordChar += uppercase;
-  }
-
-  // creates yes/no prompt choice for number characters
-  var numberChoice = confirm("A good password needs some numbers. Want to add some?");
-
-  if (numberChoice) {
-    passwordChar += numbers; 
-  }
-
-  var specialChoice = confirm("You have a good password, but great one has special characters. Want to add that too?");
-  
-  if (specialChoice) {
-    passwordChar += special;
-  }
-
-  for (var i = 0; i < passwordLength; i++) {
-    password = passwordChar[Math.floor(Math.random() * passwordChar.length)]
-  }
 
 
   // 1. Prompt the user for the password criteria
