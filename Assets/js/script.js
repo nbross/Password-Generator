@@ -57,22 +57,13 @@ function generatePassword() {
       possibleCombo.push(i);
   }
 
-  console.log(possibleCombo);
-
   for (var i = 0; i < passwordChoices.length; i++) {
     finalPassword += possibleCombo[Math.floor(Math.random() * possibleCombo.length)];
   }
 
-  console.log(finalPassword)
-  // 1. Prompt the user for the password criteria
-  //    a. Password length 8 < 128
-  //    b. Lowercase, Uppercase, Numbers, Special
-  // 2. Validate the input.
-  // 3. Generate password based on criteria
-  // 4. Display password to the page.
-
   return finalPassword;
 };
+
 // Write password to the #password input
 function writePassword() {
   var password = generatePassword();
